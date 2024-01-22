@@ -76,5 +76,29 @@ Po uruchomieniu aplikacji serwerowej, należy w drugim oknie otworzyć folder fr
 		- Nowe modele
 		- Kontrolery obsługujące nowe widoki
 
+### Milestone 3 (do 19.01.2024)
+- Dodane funkcjonalności:
+	- Eksportowanie wyników quizu do pliku xlsx lub pdf, z możliwością rozszerzeń
+	- Poprawienie logiki działania strategii, zgodnie z wymaganiami
+	- Statystyki dla danego quizu:
+		- Statystyka % poprawnych odpowiedzi dla każdego pytania
+		- Statystyka rozkładu odpowiedzi dla konkretnego pytania (po kliknięciu na pytanie, pojawia się wykres ze statystyką odpowiedzi na to pytanie)
+- Backend
+    - Nowe modele + DTO - Question i Answer, do przechowywania pytań i odpowiedzi z danego quizu
+    - Nowe endpointy
+		- eksport wyników quizu do pliku
+		- GET listy pytań dla danego quizId
+    - Klasy i logika obsługujące stworzenie pliku z wynikami quizu w odpowiednim formacie (pakiet util/file_creator)
+    - Poprawki w parserze - dodano parsowanie pytań i odpowiedzi
+- Frontend:
+	- Nowe widoki (pliki FXML):
+		- export-popup - okienko konfiguracji eksportu do pliku (z wyborem pożądanego formatu)
+		- stats-page - główna strona statystyk dla danego quizu - informacje o % poprawnych odpowiedzi dla każdego z pytań
+		- answers-page - otwierające statystykę rozkładu odpowiedzi dla konkretnego pytania z tabeli w stats-page, w formie wykresu słupkowego, z oznaczeniem kolorystycznym poprawnej odpowiedzi
+	- Kontrolery obsługujące nowe widoki
+	- Nowe modele
+	- Odpowiadające backendowi zapytania z użyciem biblioteki retrofit
+	- Dopracowanie strony wizualnej
+
 <u>Uwaga:</u> Logiem aplikacji jest ikonka majestatycznej bestii :)
 Źródło: https://github.com/Soamid/obiektowe-lab/blob/master/img/owlbear7.png

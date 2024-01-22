@@ -1,14 +1,13 @@
 package majestatyczne.bestie.rewardsmanager.util;
 
 import majestatyczne.bestie.rewardsmanager.RewardsManagerTestsConfiguration;
-import majestatyczne.bestie.rewardsmanager.service.FileUploadService;
+import majestatyczne.bestie.rewardsmanager.service.FileService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
-public class FileUploadServiceTests {
+public class FileServiceTests {
 
     @Autowired
     private RewardsManagerTestsConfiguration rewardsManagerTestsConfiguration;
 
     @Autowired
-    private FileUploadService fileUploadService;
+    private FileService fileService;
 
     @Test
     public void testLoadValidNotEmptyFile() throws IOException {
@@ -35,7 +34,7 @@ public class FileUploadServiceTests {
                 fileInputStream
         );
 
-        assertDoesNotThrow(() -> fileUploadService.loadFile(mockMultipartFile));
+        assertDoesNotThrow(() -> fileService.loadFile(mockMultipartFile));
     }
 
     @Test
@@ -47,7 +46,7 @@ public class FileUploadServiceTests {
                 "some data".getBytes()
         );
 
-        assertThrows(IOException.class, () -> fileUploadService.loadFile(mockMultipartFile1));
+        assertThrows(IOException.class, () -> fileService.loadFile(mockMultipartFile1));
 
         MultipartFile mockMultipartFile2 = new MockMultipartFile(
                 "data",
@@ -56,7 +55,7 @@ public class FileUploadServiceTests {
                 "dwedwedwefweifjwofhwrhgwehgurwehguiehrgurhguiwerihwruegherwuhig".getBytes()
         );
 
-        assertThrows(IOException.class, () -> fileUploadService.loadFile(mockMultipartFile2));
+        assertThrows(IOException.class, () -> fileService.loadFile(mockMultipartFile2));
     }
 
     @Test
@@ -70,7 +69,7 @@ public class FileUploadServiceTests {
                 emptyByteArray
         );
 
-        assertThrows(IOException.class, () -> fileUploadService.loadFile(mockMultipartFile1));
+        assertThrows(IOException.class, () -> fileService.loadFile(mockMultipartFile1));
     }
 
     @Test
@@ -84,6 +83,6 @@ public class FileUploadServiceTests {
                 emptyByteArray
         );
 
-        assertThrows(IOException.class, () -> fileUploadService.loadFile(mockMultipartFile1));
+        assertThrows(IOException.class, () -> fileService.loadFile(mockMultipartFile1));
     }
 }

@@ -4,6 +4,7 @@ import majestatyczne.bestie.rewardsmanager.model.*;
 import majestatyczne.bestie.rewardsmanager.reward_selection_strategy.PercentageStrategy;
 import majestatyczne.bestie.rewardsmanager.reward_selection_strategy.ScoreStrategy;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,20 +15,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
+
 public class StrategyTests {
+
     RewardStrategy rewardStrategy;
+
     RewardCategory firstCategory;
+
     RewardCategory secondCategory;
+
     List<Result> results;
 
     @Test
     public void shouldReturnPercentageStrategy() {
+        rewardStrategy = mock(RewardStrategy.class);
         when(rewardStrategy.getRewardStrategyType()).thenReturn(PERCENTAGE);
         assertEquals(PercentageStrategy.class, getRewardSelectionStrategy(rewardStrategy).getClass());
     }
 
     @Test
     public void shouldReturnScoreStrategy() {
+        rewardStrategy = mock(RewardStrategy.class);
         when(rewardStrategy.getRewardStrategyType()).thenReturn(SCORE);
         assertEquals(ScoreStrategy.class, getRewardSelectionStrategy(rewardStrategy).getClass());
     }
@@ -50,36 +59,36 @@ public class StrategyTests {
         RewardStrategyParameter secondParameter = mock(RewardStrategyParameter.class);
 
         Result result1 = new Result();
-        result1.setScore(0);
+        result1.setScore(2);
         result1.setEndDate((new Date()));
         results.add(result1);
 
         Result result2 = new Result();
-        result1.setScore(1);
-        result1.setEndDate((new Date()));
+        result2.setScore(1);
+        result2.setEndDate((new Date()));
         results.add(result2);
 
         Result result3 = new Result();
-        result1.setScore(2);
-        result1.setEndDate((new Date()));
+        result3.setScore(2);
+        result3.setEndDate((new Date()));
         results.add(result3);
 
         Result result4 = new Result();
-        result1.setScore(0);
-        result1.setEndDate((new Date()));
+        result4.setScore(0);
+        result4.setEndDate((new Date()));
         results.add(result4);
 
         expectedResults.add(firstReward);
+        expectedResults.add(null);
         expectedResults.add(secondReward);
-        expectedResults.add(secondReward);
-        expectedResults.add(secondReward);
+        expectedResults.add(null);
 
         //when
         whenMethodsForPercentage(firstReward, secondReward, firstParameter, secondParameter);
 
         //then
         assertEquals(expectedResults,
-                getRewardSelectionStrategy(rewardStrategy).insertRewards(results, rewardStrategy, null)
+                getRewardSelectionStrategy(rewardStrategy).insertRewards(results, rewardStrategy, null, 2)
                         .stream().map(Result::getReward).toList());
     }
 
@@ -149,7 +158,7 @@ public class StrategyTests {
         //then
 
         assertEquals(expectedResults,
-                getRewardSelectionStrategy(rewardStrategy).insertRewards(results, rewardStrategy, null)
+                getRewardSelectionStrategy(rewardStrategy).insertRewards(results, rewardStrategy, null, 2)
                         .stream().map(Result::getReward).toList());
     }
 

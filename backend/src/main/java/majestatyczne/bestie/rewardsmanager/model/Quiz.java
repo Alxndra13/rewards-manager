@@ -27,10 +27,17 @@ public class Quiz {
     @Column(nullable = false)
     private Date date;
 
-    @OneToMany(mappedBy = "quiz")
+    @Column
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Preference> preferences;
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @OrderBy("score DESC, endDate ASC")
     private List<Result> results;
 
-    @OneToOne(mappedBy = "quiz")
+    @OneToOne(mappedBy = "quiz", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private RewardStrategy rewardStrategy;
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Question> questions;
 }

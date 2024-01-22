@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="majestatyczne.bestie.frontend.controller.StatsPageController"
+      prefHeight="400.0" prefWidth="600.0">
+
+    <HBox prefHeight="50.0" prefWidth="200.0" alignment="BASELINE_CENTER" styleClass="quiz-page-header">
+        <HBox styleClass="stats-page-header-left">
+            <ImageView fx:id="backIcon" fitHeight="40" fitWidth="40" pickOnBounds="true" preserveRatio="true" onMouseClicked="#onGoBackClicked">
+                <Image url="@left-arrow.png"/>
+            </ImageView>
+        </HBox>
+        <VBox styleClass="quiz-page-header-middle" HBox.hgrow="ALWAYS">
+            <Label fx:id="quizNameLabel" styleClass="quiz-name"/>
+            <Label fx:id="quizDateLabel" styleClass="quiz-date"/>
+        </VBox>
+        <HBox styleClass="stats-page-header-right"> </HBox>
+    </HBox>
+
+    <VBox HBox.hgrow="ALWAYS">
+        <TableView fx:id="questionTable" onMouseClicked="#onQuestionSelected" prefHeight="720.0" styleClass="stats-page-table-view">
+            <columns>
+                <TableColumn fx:id="contentColumn" text="Treść pytania" style="-fx-pref-width: 930px"/>
+                <TableColumn fx:id="scoreColumn" style="-fx-pref-width: 150px; -fx-alignment: center" text="\% poprawnych"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+    </VBox>
+
+    <stylesheets>
+        <URL value="@styles.css"/>
+    </stylesheets>
+</VBox>

@@ -23,7 +23,8 @@
                 </VBox>
                 <HBox styleClass="quiz-page-header-right">
                     <children>
-                        <Button mnemonicParsing="false" text="Export" />
+                        <Button mnemonicParsing="false" text="Statystyki" onAction="#onStatsClicked"/>
+                        <Button mnemonicParsing="false" text="Eksportuj" onAction="#onExportClicked"/>
                         <ImageView fx:id="settingsIcon" fitHeight="40" fitWidth="40" pickOnBounds="true" preserveRatio="true" onMouseClicked="#onSettingsClicked">
                             <Image url="@settings.png"/>
                         </ImageView>
@@ -37,7 +38,7 @@
                     <TableColumn fx:id="nameColumn" text="Imię zwierzaka" />
                     <TableColumn fx:id="scoreColumn" text="Wynik quizu" />
                     <TableColumn fx:id="endDateColumn" text="Zakończenie quizu" />
-                    <TableColumn fx:id="rewardColumn" text="Przyznane nagrody" />
+                    <TableColumn fx:id="rewardColumn" text="Przyznane nagrody" styleClass="choice-box-cell"/>
                 </columns>
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

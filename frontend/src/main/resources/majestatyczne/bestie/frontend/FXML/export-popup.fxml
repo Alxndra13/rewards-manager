@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="majestatyczne.bestie.frontend.controller.ExportPopupController"
+      prefHeight="200.0" prefWidth="350.0"
+styleClass="export-popup-vbox">
+
+    <Label text="Wybierz format docelowy" styleClass="settings-header-label"/>
+    <ChoiceBox fx:id="formatChoiceBox" prefWidth="150">
+    </ChoiceBox>
+
+    <Button text="Zatwierdź" onAction="#onConfirmClicked"/>
+
+    <stylesheets>
+        <URL value="@styles.css"/>
+    </stylesheets>
+
+</VBox>

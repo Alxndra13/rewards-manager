@@ -1,4 +1,4 @@
-package majestatyczne.bestie.frontend.model;
+package majestatyczne.bestie.frontend.model.view;
 
 import javafx.beans.property.*;
 import lombok.Getter;

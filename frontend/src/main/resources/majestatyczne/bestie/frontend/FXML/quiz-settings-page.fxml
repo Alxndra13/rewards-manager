@@ -13,7 +13,7 @@
       fx:controller="majestatyczne.bestie.frontend.controller.QuizSettingsPageController">
     <children>
         <HBox prefHeight="50.0" prefWidth="200.0" alignment="BASELINE_CENTER" styleClass="quiz-page-header">
-            <HBox styleClass="quiz-page-header-left">
+            <HBox styleClass="stats-page-header-left">
                 <ImageView fx:id="backIcon" fitHeight="40" fitWidth="40" pickOnBounds="true" preserveRatio="true"
                            onMouseClicked="#onGoBackClicked">
                     <Image url="@left-arrow.png"/>
@@ -23,7 +23,7 @@
                 <Label fx:id="quizNameLabel" styleClass="quiz-name"/>
                 <Label fx:id="quizScoreLabel"/>
             </VBox>
-            <HBox styleClass="quiz-page-header-right">
+            <HBox styleClass="stats-page-header-right">
                 <Button fx:id="saveButton" text="Zapisz" onAction="#onSaveButtonClicked" disable="true"/>
             </HBox>
         </HBox>
@@ -43,7 +43,7 @@
                     <columns>
                         <TableColumn fx:id="priorityColumn" text="Priorytet"/>
                         <TableColumn fx:id="parameterValueColumn" text="Wartość parametru" editable="true" />
-                        <TableColumn fx:id="rewardCategoryColumn" text="Kategoria nagrody" />
+                        <TableColumn fx:id="rewardCategoryColumn" text="Kategoria nagrody" styleClass="choice-box-cell"/>
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -1,20 +1,15 @@
-package majestatyczne.bestie.rewardsmanager.util;
+package majestatyczne.bestie.rewardsmanager.util.parser;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import majestatyczne.bestie.rewardsmanager.model.Person;
-import majestatyczne.bestie.rewardsmanager.model.Preference;
-import majestatyczne.bestie.rewardsmanager.model.Result;
-import majestatyczne.bestie.rewardsmanager.model.Reward;
+import majestatyczne.bestie.rewardsmanager.model.*;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -23,20 +18,38 @@ public class XlsxParser {
 
     private final XlsxParserProperties properties;
 
-    private final Logger logger = LoggerFactory.getLogger(XlsxParserProperties.class);
+    private final Logger logger = LoggerFactory.getLogger(XlsxParser.class);
 
     public ParsedData parseSheet(Sheet sheet) {
-        // two last columns are cut because they are empty! Thus row length is 17, not 19 (like the header)
+        logger.info("parsing data...");
 
         ParsedData parsedData = new ParsedData();
 
-        logger.info("parsing data...");
+        // parse questions and answers
+        parseQuestionsAndAnswers(sheet, parsedData);
 
-        int rowLength = sheet.getRow(0).getLastCellNum();
+        // remove header row
+        sheet.shiftRows(1, sheet.getLastRowNum(), -1); // remove the header row
 
+        // parse rewards
         parseRewards(parsedData, sheet);
 
         // parse rows
+        parseRows(sheet, parsedData);
+
+        // parse quiz
+        parseQuiz(parsedData, sheet);
+
+        logger.info("data parsing complete");
+
+        return parsedData;
+    }
+
+    private void parseRows(Sheet sheet, ParsedData parsedData) {
+        // requires sheet without header row
+
+        int rowLength = sheet.getRow(0).getLastCellNum();
+
         for (Row row : sheet) {
             Date startDate = row.getCell(properties.getStartDateIndex()).getDateCellValue();
             Date endDate = row.getCell(properties.getEndDateIndex()).getDateCellValue();
@@ -45,19 +58,69 @@ public class XlsxParser {
             String allRewardsWithDescriptions = row.getCell(rowLength + properties.getRewardsIndex())
                     .getStringCellValue();
 
+            // parse person
             Person person = parseAndGetPerson(parsedData, personName);
+
+            // parse result
             parseResult(parsedData, person, score, startDate, endDate);
-            parsePreference(parsedData, person, allRewardsWithDescriptions);
+
+            // parse preferences
+            parsePreferences(parsedData, person, allRewardsWithDescriptions);
         }
+    }
 
-        parseQuiz(parsedData, sheet);
+    private void parseQuestionsAndAnswers(Sheet sheet, ParsedData parsedData) {
+        // requires sheet with header row
+        // length of the standard row = length of the header row - 2
 
-        logger.info("data parsing complete");
+        Row header = sheet.getRow(0);
+        int lastQuestionCol = sheet.getRow(1).getLastCellNum() + properties.getPersonNameIndex() -
+                properties.getColumnsPerEvaluatedQuestion();
 
-        return parsedData;
+        for (int colInd = properties.getFirstEvaluatedQuestionIndex(); colInd <= lastQuestionCol; colInd +=
+                properties.getColumnsPerEvaluatedQuestion()) {
+            // create question
+            Question question = new Question();
+            question.setQuiz(parsedData.getQuiz());
+            question.setContent(header.getCell(colInd).getStringCellValue());
+            parsedData.getQuestions().add(question);
+
+            // get answers data
+            Map<String, Integer> answersContentCount = new HashMap<>();
+            Map<String, Boolean> answerIsCorrect = new HashMap<>();
+            for (int rowInd = 1; rowInd < sheet.getLastRowNum(); rowInd++) {
+                String answerContent = sheet.getRow(rowInd).getCell(colInd).getStringCellValue();
+                int answerPoints = (int) sheet.getRow(rowInd).getCell(colInd + 1).getNumericCellValue();
+
+                if (answersContentCount.containsKey(answerContent)) {
+                    answersContentCount.put(answerContent, answersContentCount.get(answerContent) + 1);
+                } else {
+                    answersContentCount.put(answerContent, 1);
+                }
+
+                answerIsCorrect.put(answerContent, answerPoints > 0);
+            }
+
+            // create answers
+            List<Answer> answers = new ArrayList<>();
+            for (Map.Entry<String, Integer> entry : answersContentCount.entrySet()) {
+                Answer answer = new Answer();
+                answer.setContent(entry.getKey());
+                answer.setSelectionCount(entry.getValue());
+                answer.setCorrect(answerIsCorrect.get(entry.getKey()));
+                answer.setQuestion(question);
+
+                answers.add(answer);
+                parsedData.getAnswers().add(answer);
+            }
+
+            question.setAnswers(answers);
+        }
     }
 
     private void parseRewards(ParsedData parsedData, Sheet sheet) {
+        // requires sheet without header row
+
         Row firstRow = sheet.getRow(0);
         int rowLength = firstRow.getLastCellNum();
         String allRewardsWithDescriptions = firstRow.getCell(rowLength + properties.getRewardsIndex())
@@ -91,7 +154,7 @@ public class XlsxParser {
         parsedData.getResults().add(result);
     }
 
-    private void parsePreference(ParsedData parsedData, Person person, String allRewardsWithDescriptions) {
+    private void parsePreferences(ParsedData parsedData, Person person, String allRewardsWithDescriptions) {
         List<String[]> convertedRewardsWithDescriptions =
                 convertRewardsWithDescription(allRewardsWithDescriptions);
 
@@ -113,6 +176,8 @@ public class XlsxParser {
     }
 
     private void parseQuiz(ParsedData parsedData, Sheet sheet) {
+        // requires sheet without header
+
         Row row = sheet.getRow(0);
         Date date = row.getCell(properties.getStartDateIndex()).getDateCellValue();
         int maxScore = (row.getLastCellNum() - properties.getNotEvaluatedQuestions())

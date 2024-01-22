@@ -28,7 +28,7 @@ public class RewardStrategy {
     @JoinColumn(name="quiz_id")
     private Quiz quiz;
 
-    @OneToMany(mappedBy = "rewardStrategy")
+    @OneToMany(mappedBy = "rewardStrategy", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @OrderBy("priority ASC")
     private List<RewardStrategyParameter> parameters;
 }

@@ -1,4 +1,4 @@
-package majestatyczne.bestie.rewardsmanager.util;
+package majestatyczne.bestie.rewardsmanager.util.parser;
 
 import lombok.Getter;
 import majestatyczne.bestie.rewardsmanager.model.*;
@@ -18,4 +18,8 @@ public class ParsedData {
     private final List<Result> results = new ArrayList<>();
 
     private final List<Reward> rewards = new ArrayList<>();
+
+    private final List<Question> questions = new ArrayList<>();
+
+    private final List<Answer> answers = new ArrayList<>();
 }

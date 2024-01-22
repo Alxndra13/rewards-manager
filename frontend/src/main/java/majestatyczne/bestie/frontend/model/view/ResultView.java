@@ -1,7 +1,9 @@
-package majestatyczne.bestie.frontend.model;
+package majestatyczne.bestie.frontend.model.view;
 
 import javafx.beans.property.*;
 import lombok.Getter;
+import majestatyczne.bestie.frontend.model.Result;
+import majestatyczne.bestie.frontend.model.Reward;
 
 import java.util.Date;
 

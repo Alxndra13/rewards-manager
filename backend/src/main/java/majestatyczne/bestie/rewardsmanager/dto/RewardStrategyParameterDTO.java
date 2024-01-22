@@ -35,10 +35,6 @@ public record RewardStrategyParameterDTO (
         rewardStrategyParameter.setRewardStrategy(rewardStrategy);
         rewardStrategyParameter.setParameterValue(rewardStrategyParameterDTO.parameterValue);
         rewardStrategyParameter.setPriority(rewardStrategyParameterDTO.priority);
-
-        if (rewardStrategyParameterDTO.rewardCategoryDTO == null) {
-            throw new IllegalStateException("rewardDTO category cannot be null");
-        }
         rewardStrategyParameter.setRewardCategory(rewardCategory);
 
         return rewardStrategyParameter;
@@ -51,12 +47,8 @@ public record RewardStrategyParameterDTO (
                 .stream()
                 .map(rewardStrategyParameterDTO ->
                 {
-                    if (rewardStrategyParameterDTO.rewardCategoryDTO == null) {
-                        throw new IllegalStateException("reward category in parameter cannot be null");
-                    }
-
-                    RewardCategory rewardCategory = rewardCategoryService.findById(
-                            rewardStrategyParameterDTO.rewardCategoryDTO.id());
+                    RewardCategory rewardCategory = rewardStrategyParameterDTO.rewardCategoryDTO == null ? null :
+                            rewardCategoryService.findById(rewardStrategyParameterDTO.rewardCategoryDTO.id());
 
                     return RewardStrategyParameterDTO.convertFromDTO(rewardStrategyParameterDTO, rewardStrategy,
                             rewardCategory);

@@ -1,12 +1,9 @@
-package majestatyczne.bestie.frontend.model;
+package majestatyczne.bestie.frontend.model.view;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import lombok.Getter;
-
-import java.util.Date;
+import majestatyczne.bestie.frontend.model.RewardCategory;
 
 public class RewardCategoryView {
 

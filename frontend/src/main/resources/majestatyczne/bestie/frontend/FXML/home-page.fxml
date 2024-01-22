@@ -13,7 +13,7 @@
             <ImageView fx:id="settingsIcon" fitHeight="40" fitWidth="40" pickOnBounds="true" preserveRatio="true" onMouseClicked="#onSettingsClicked">
                <Image url="@settings.png"/>
             </ImageView>
-            <Button fx:id="importButton" mnemonicParsing="false" onAction="#onGetFile" text="Import" textAlignment="CENTER" />
+            <Button fx:id="importButton" mnemonicParsing="false" onAction="#onImportFile" text="Importuj" textAlignment="CENTER" />
          </children>
       </VBox>
       <VBox HBox.hgrow="ALWAYS">
@@ -21,7 +21,7 @@
               <columns>
                  <TableColumn fx:id="nameColumn"/>
                  <TableColumn fx:id="dateColumn"/>
-                 <TableColumn fx:id="deleteColumn" text="Usuń"/>
+                 <TableColumn fx:id="deleteColumn" text="Usuń" style="-fx-alignment: center-right"/>
               </columns>
               <columnResizePolicy>
                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

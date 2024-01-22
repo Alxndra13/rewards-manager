@@ -11,6 +11,12 @@ public class Constants {
 
     public static final String FXML_QUIZ_SETTINGS_RESOURCE = "FXML/quiz-settings-page.fxml";
 
+    public static final String FXML_EXPORT_POPUP_RESOURCE = "FXML/export-popup.fxml";
+
+    public static final String FXML_STATS_PAGE_RESOURCE = "FXML/stats-page.fxml";
+
+    public static final String FXML_ANSWERS_PAGE_RESOURCE = "FXML/answers-page.fxml";
+
 //    ICONS
     public static final String APPLICATION_ICON_RESOURCE = "icons/owl-bear.png";
 
@@ -48,6 +54,14 @@ public class Constants {
     public static final String PERCENTAGE_STRATEGY_PARAMETER_COLUMN_NAME = "Procent (0-100)";
 
     public static final String SCORE_STRATEGY_PARAMETER_COLUMN_NAME = "Liczba poprawnych odpowiedzi";
+
+    public static final String REWARD_CATEGORY_CHOICE_BOX_NO_CATEGORY = "brak kategorii";
+
+    public static final String REWARD_CHOICE_BOX_NO_REWARD = "brak nagrody";
+
+    public static final String EXPORT_POPUP_WINDOW_TITLE = "Eksport pliku";
+
+    public static final String DELETE_BUTTON_TEXT = "Usuń";
 
 //    ALERTS
     public static final String UPDATE_REWARDS_INFO = "Zmiany w nagrodach zostały wprowadzone!";
@@ -90,13 +104,19 @@ public class Constants {
 
     public static final String UPDATE_STRATEGY_ERROR = "Nie udało się zaktualizować strategii!";
 
-    public static final String STRATEGY_PARAMETER_EMPTY_CATEGORY_WARNING = "Każdy z parametrów musi mieć wybraną kategorię nagród!";
-
     public static final String PERCENTAGE_STRATEGY_PARAMETER_OUT_OF_BOUND_WARNING = "Parametr musi mieć wartość między 0 a 100!";
+
+    public static final String PERCENTAGE_STRATEGY_PARAMETER_SUM_OVER_100_WARNING = "Suma procentów nie może przekraczać 100!";
 
     public static final String SCORE_STRATEGY_PARAMETER_OUT_OF_BOUND_WARNING = "Każdy z parametrów musi być z zakresu od 0 do maksymalnej liczby punktów z quizu";
 
     public static final String SCORE_STRATEGY_PARAMETER_DUPLICATE_WARNING = "Parametry oznaczające liczbę uzyskanych punktów nie mogą się powtarzać!";
+
+    public static final String EXPORT_FILE_ERROR = "Nie udało się wyeksportować wyników do pliku!";
+
+    public static final String EXPORT_FILE_INFO = "Plik został wyeksportowany poprawnie i zapisany na dysku w folderze Pobrane!";
+
+    public static final String SAVE_EXPORT_FILE_EXCEPTION = "Nie udało się zapisać otrzymanego pliku na dysku!";
 
     // general alert texts
     public static final String ALERT_WARNING_TITLE = "Uwaga";
@@ -109,4 +129,9 @@ public class Constants {
 
 //    STRATEGIES PARAMETERS
     public static final int PERCENTAGE_STRATEGY_PARAMETERS_NUMBER = 2;
+
+//    RETROFIT CONSTANTS
+    public static final String BASE_SERVER_URL = "http://localhost:8080/";
+
+    public static final String JSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 }
