@@ -1,10 +1,10 @@
-package majestatyczne.bestie.frontend.util;
+package majestatyczne.bestie.frontend.util.cell;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableCell;
-import majestatyczne.bestie.frontend.model.ResultView;
-import majestatyczne.bestie.frontend.model.RewardView;
+import majestatyczne.bestie.frontend.model.view.ResultView;
+import majestatyczne.bestie.frontend.model.view.RewardView;
 
 import java.util.function.BiConsumer;
 

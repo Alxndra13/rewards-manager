@@ -1,6 +1,8 @@
-package majestatyczne.bestie.frontend.model;
+package majestatyczne.bestie.frontend.model.view;
 
 import javafx.beans.property.*;
+import majestatyczne.bestie.frontend.model.RewardCategory;
+import majestatyczne.bestie.frontend.model.RewardStrategyParameter;
 
 public class RewardStrategyParameterView {
     private int id;

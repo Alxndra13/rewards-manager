@@ -16,6 +16,9 @@ import javafx.util.converter.IntegerStringConverter;
 import majestatyczne.bestie.frontend.Constants;
 import majestatyczne.bestie.frontend.HomePageApplication;
 import majestatyczne.bestie.frontend.model.*;
+import majestatyczne.bestie.frontend.model.view.QuizView;
+import majestatyczne.bestie.frontend.model.view.RewardCategoryView;
+import majestatyczne.bestie.frontend.model.view.RewardStrategyParameterView;
 import majestatyczne.bestie.frontend.service.QuizService;
 import majestatyczne.bestie.frontend.service.RewardCategoryService;
 import majestatyczne.bestie.frontend.service.RewardStrategyService;
@@ -28,7 +31,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import majestatyczne.bestie.frontend.util.AlertManager;
-import majestatyczne.bestie.frontend.util.RewardCategoryChoiceCell;
+import majestatyczne.bestie.frontend.util.cell.RewardCategoryChoiceCell;
 import org.apache.http.HttpStatus;
 
 
@@ -131,6 +134,9 @@ public class QuizSettingsPageController implements Initializable {
         rewardCategories = FXCollections.observableArrayList();
         rewardCategoryList = rewardCategoryService.getRewardCategories();
         rewardCategoryList.forEach(rewardCategory -> rewardCategories.add(new RewardCategoryView(rewardCategory.getId(), rewardCategory.getName())));
+
+        RewardCategoryView noCategory = new RewardCategoryView(-1, Constants.REWARD_CATEGORY_CHOICE_BOX_NO_CATEGORY);
+        rewardCategories.add(0, noCategory);
     }
 
     @Override
@@ -193,10 +199,7 @@ public class QuizSettingsPageController implements Initializable {
     private void prepareStrategyDetails(RewardStrategyType strategyType) {
         parameters.clear();
         if (existingStrategy == null || existingStrategy.getRewardStrategyType() != strategyType) {
-            switch (strategyType) {
-                case PERCENTAGE -> generateParameters(Constants.PERCENTAGE_STRATEGY_PARAMETERS_NUMBER);
-                case SCORE -> generateParameters(quizView.getMaxScore() + 1);
-            }
+            generateParameters(strategyType);
         } else {
             existingStrategy.getParameters().forEach(parameter -> parameters.add(new RewardStrategyParameterView(parameter)));
         }
@@ -204,10 +207,20 @@ public class QuizSettingsPageController implements Initializable {
         strategy.setRewardStrategyType(strategyType);
     }
 
-    private void generateParameters(int numberOfRows) {
-        for (int i = 0; i < numberOfRows; i++) {
-            parameters.add(new RewardStrategyParameterView(i + 1, i + 1, 0, null));
+    private void generateParameters(RewardStrategyType strategyType) {
+        switch (strategyType) {
+            case PERCENTAGE -> {
+                for (int i = 0; i < Constants.PERCENTAGE_STRATEGY_PARAMETERS_NUMBER; i++) {
+                    parameters.add(new RewardStrategyParameterView(i + 1, i + 1, 0, null));
+                }
+            }
+            case SCORE -> {
+                for (int i = 0; i < quizView.getMaxScore() + 1; i++) {
+                    parameters.add(new RewardStrategyParameterView(i + 1, i + 1, quizView.getMaxScore() - i, null));
+                }
+            }
         }
+
     }
 
     private void showPercentageStrategyDetails() {
@@ -253,20 +266,10 @@ public class QuizSettingsPageController implements Initializable {
     }
 
     private void validateParameters() {
-        checkEmptyCategory();
         switch (strategy.getRewardStrategyType()) {
             case PERCENTAGE -> checkPercentageParameters();
             case SCORE -> checkScoreParameters();
         }
-    }
-
-    private void checkEmptyCategory() {
-        strategy.getParameters().forEach(parameter -> {
-            if (parameter.getRewardCategory() == null) {
-                AlertManager.showWarningAlert(Constants.STRATEGY_PARAMETER_EMPTY_CATEGORY_WARNING);
-                throw new IllegalArgumentException();
-            }
-        });
     }
 
     private void checkPercentageParameters() {
@@ -276,6 +279,13 @@ public class QuizSettingsPageController implements Initializable {
                 throw new IllegalArgumentException();
             }
         });
+        int sum = strategy.getParameters().stream()
+                .mapToInt(RewardStrategyParameter::getParameterValue)
+                .sum();
+        if (sum > 100) {
+            AlertManager.showWarningAlert(Constants.PERCENTAGE_STRATEGY_PARAMETER_SUM_OVER_100_WARNING);
+            throw new IllegalArgumentException();
+        }
     }
 
     private void checkScoreParameters() {

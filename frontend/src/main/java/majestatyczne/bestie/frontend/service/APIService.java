@@ -1,6 +1,7 @@
 package majestatyczne.bestie.frontend.service;
 
 import majestatyczne.bestie.frontend.model.*;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -61,4 +62,12 @@ public interface APIService {
 
     @PUT("reward-strategies")
     Call<Void> updateRewardStrategy(@Body RewardStrategy rewardStrategy);
+
+    @GET("files")
+    @Streaming
+    Call<ResponseBody> exportResultsFile(@Query("quizId") int quizId, @Query("format") String format);
+
+    @GET("questions")
+    Call<List<Question>> getQuestionsByQuizId(@Query("quizId") int quizId);
+
 }

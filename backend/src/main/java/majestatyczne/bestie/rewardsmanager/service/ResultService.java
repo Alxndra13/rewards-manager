@@ -42,8 +42,7 @@ public class ResultService {
     @Transactional
     public void update(int resultId, Person person, Date startDate, Date endDate, int score, int rewardId) {
         Result result = findById(resultId);
-        Reward reward = rewardService.findById(rewardId);
-
+        Reward reward = rewardId == -1 ? null : rewardService.findById(rewardId);
         update(result, result.getQuiz(), person, startDate, endDate, score, reward);
     }
 

@@ -6,6 +6,9 @@
     -fx-grey-color: #b6b6b6;
     -fx-light-grey-color: #d1d1d1;
     -fx-lightest-grey-color: #ececec;
+    -fx-danger-color: #dc3545;
+    -fx-danger-secondary-color: #a61824;
+    -fx-danger-accent-color: #6e0a13;
 }
 
 /* styles applying to all pages */
@@ -36,8 +39,26 @@
     -fx-label-padding: 0 5px 0 5px;
 }
 
+.delete-button {
+    -fx-font-size: 10pt;
+    -fx-background-color: -fx-danger-color;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-pref-height: 20px;
+    -fx-label-padding: 0 5px 0 5px;
+}
+
+.delete-button:hover {
+    -fx-background-color: -fx-danger-secondary-color;
+}
+
+.delete-button:pressed {
+    -fx-background-color: -fx-danger-accent-color;
+}
+
 .image-view:hover {
     -fx-effect: innershadow(gaussian, -fx-secondary-color, 100, 0, 0, 0);
+    -fx-cursor: hand;
 }
 
 .image-view:pressed {
@@ -50,7 +71,7 @@
     -fx-spacing: 20px;
 }
 
-.home-page-table-view {
+.home-page-table-view, .stats-page-table-view {
     -fx-font-size: 12pt;
     -fx-border-color: -fx-lightest-grey-color;
 }
@@ -61,23 +82,32 @@
     -fx-min-height: 0;
 }
 
-.home-page-table-view .table-column {
+.stats-page-table-view .column-header-background {
+    -fx-border-color: -fx-light-grey-color;
+}
+
+.stats-page-table-view .column-header .label{
+    -fx-alignment: center;
+    -fx-font-size: 15pt;
+}
+
+.home-page-table-view .table-column, .stats-page-table-view .table-column {
     -fx-alignment: CENTER-LEFT;
     -fx-border-color: transparent;
     -fx-background-color: transparent;
 }
 
-.home-page-table-view .table-row-cell{
+.home-page-table-view .table-row-cell, .stats-page-table-view .table-row-cell{
     -fx-padding: 0 10px 0 10px;
     -fx-cell-size: 50px;
 }
 
-.home-page-table-view .table-row-cell:filled:hover {
-    -fx-border-color: transparent;
+.home-page-table-view .table-row-cell:filled:hover, .stats-page-table-view .table-row-cell:filled:hover {
     -fx-background-color: -fx-light-grey-color;
+    -fx-cursor: hand;
 }
 
-.home-page-table-view .table-row-cell:filled:selected {
+.home-page-table-view .table-row-cell:filled:selected, .stats-page-table-view .table-row-cell:filled:selected {
     -fx-background-color: -fx-grey-color;
 }
 
@@ -89,6 +119,10 @@
 }
 
 .quiz-page-header-left {
+    -fx-pref-width: 300px;
+}
+
+.stats-page-header-left {
     -fx-pref-width: 100px;
 }
 
@@ -103,24 +137,26 @@
 
 .quiz-page-header-right {
     -fx-spacing: 20px;
-    -fx-pref-width: 150px;
+    -fx-pref-width: 300px;
+}
+
+.stats-page-header-right {
+    -fx-spacing: 20px;
+    -fx-pref-width: 100px;
 }
 
 .quiz-page-table-view {
     -fx-font-size: 10pt;
 }
 
-
-.quiz-page-table-view .column-header {
+.table-view .column-header {
     -fx-background-color: -fx-light-grey-color;
-
 }
 
 .table-view .column-header .label{
-    -fx-alignment: center-left;
+    -fx-alignment: center;
     -fx-font-size: 12pt;
 }
-
 
 .quiz-page-table-view .table-row-cell:filled:hover {
     -fx-background-color: -fx-light-grey-color;
@@ -141,6 +177,7 @@
 .global-settings-page-section-title {
     -fx-spacing: 10px;
     -fx-padding: 5 0 5 0 px;
+    -fx-alignment: baseline-center;
 }
 
 .global-settings-page-new-element-hbox {
@@ -157,5 +194,40 @@
 
 .quiz-settings-strategy-desc-label {
     -fx-padding: 5 10 5 10px;
+    -fx-font-size: 12pt;
+}
+
+.export-popup-vbox {
+    -fx-spacing: 10px;
+    -fx-padding: 10 10 10 10px;
+    -fx-alignment: center;
+}
+
+.question-name {
+    -fx-font-size: 12pt;
+    -fx-text-alignment: center;
+}
+
+.choice-box-cell {
+    -fx-alignment: center-right;
+}
+
+ /*Answer bar chart styles*/
+
+.answer-chart {
+    -fx-padding: 10px;
+    -fx-legend-visible: false;
+}
+
+.answer-chart .chart-content {
+    -fx-padding: 10px;
+    -fx-bar-fill: -fx-danger-color;
+}
+
+.answer-chart .chart-title {
+    -fx-font-size: 15pt;
+}
+
+.axis-label {
     -fx-font-size: 12pt;
 }

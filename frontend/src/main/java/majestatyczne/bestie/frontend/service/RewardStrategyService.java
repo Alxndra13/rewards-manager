@@ -2,7 +2,9 @@ package majestatyczne.bestie.frontend.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import majestatyczne.bestie.frontend.Constants;
 import majestatyczne.bestie.frontend.model.RewardStrategy;
+import org.apache.http.HttpStatus;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -27,7 +29,7 @@ public class RewardStrategyService {
             return response.code();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return 500;
+            return HttpStatus.SC_INTERNAL_SERVER_ERROR;
         }
     }
 
@@ -38,16 +40,16 @@ public class RewardStrategyService {
             return response.code();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return 500;
+            return HttpStatus.SC_INTERNAL_SERVER_ERROR;
         }
     }
 
     private APIService getAPIService() {
         Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .setDateFormat(Constants.JSON_DATE_FORMAT)
                 .create();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://localhost:8080/")
+                .baseUrl(Constants.BASE_SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         return retrofit.create(APIService.class);

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor(onConstructor_ ={@Lazy})
@@ -73,9 +74,10 @@ public class RewardStrategyService {
     }
 
     @Transactional
-    public void insertRewards(RewardStrategy rewardStrategy) {
+    public void insertRewards(RewardStrategy rewardStrategy) throws NoSuchElementException {
         RewardSelectionStrategy rewardSelectionStrategy = RewardStrategyType.getRewardSelectionStrategy(rewardStrategy);
-        rewardSelectionStrategy.insertRewards(rewardStrategy.getQuiz().getResults(), rewardStrategy, null);
+        rewardSelectionStrategy.insertRewards(rewardStrategy.getQuiz().getResults(), rewardStrategy, null,
+                rewardStrategy.getQuiz().getMaxScore());
     }
 
     @Transactional

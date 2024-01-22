@@ -1,7 +1,8 @@
 package majestatyczne.bestie.frontend.service;
 
-import majestatyczne.bestie.frontend.model.Reward;
+import majestatyczne.bestie.frontend.Constants;
 import majestatyczne.bestie.frontend.model.RewardCategory;
+import org.apache.http.HttpStatus;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -28,7 +29,7 @@ public class RewardCategoryService {
             return response.code();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return 500;
+            return HttpStatus.SC_INTERNAL_SERVER_ERROR;
         }
     }
 
@@ -39,7 +40,7 @@ public class RewardCategoryService {
             return response.code();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return 500;
+            return HttpStatus.SC_INTERNAL_SERVER_ERROR;
         }
     }
 
@@ -50,13 +51,13 @@ public class RewardCategoryService {
             return response.code();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return 500;
+            return HttpStatus.SC_INTERNAL_SERVER_ERROR;
         }
     }
 
     private APIService getAPIService() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://localhost:8080/")
+                .baseUrl(Constants.BASE_SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit.create(APIService.class);

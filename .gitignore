@@ -1,4 +1,5 @@
 *.log
+*.gz
 
 ### Windows ###
 # Windows image file caches

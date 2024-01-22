@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import java.net.URL?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="majestatyczne.bestie.frontend.controller.AnswersPageController"
+      prefHeight="400.0" prefWidth="600.0">
+    <HBox prefHeight="50.0" prefWidth="200.0" alignment="BASELINE_CENTER" styleClass="quiz-page-header">
+        <HBox styleClass="stats-page-header-left">
+            <ImageView fx:id="backIcon" fitHeight="40" fitWidth="40" pickOnBounds="true" preserveRatio="true" onMouseClicked="#onGoBackClicked">
+                <Image url="@left-arrow.png"/>
+            </ImageView>
+        </HBox>
+        <VBox styleClass="quiz-page-header-middle" HBox.hgrow="ALWAYS">
+            <Label fx:id="questionContentLabel" styleClass="question-name" wrapText="true"/>
+        </VBox>
+        <HBox styleClass="stats-page-header-right"> </HBox>
+    </HBox>
+    <BarChart fx:id="barChart" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="400.0" styleClass="answer-chart">
+        <xAxis>
+            <NumberAxis side="BOTTOM"/>
+        </xAxis>
+        <yAxis>
+            <CategoryAxis side="LEFT"/>
+        </yAxis>
+    </BarChart>
+
+    <stylesheets>
+        <URL value="@styles.css"/>
+    </stylesheets>
+</VBox>

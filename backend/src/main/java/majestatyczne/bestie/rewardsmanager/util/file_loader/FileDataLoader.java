@@ -1,4 +1,4 @@
-package majestatyczne.bestie.rewardsmanager.util;
+package majestatyczne.bestie.rewardsmanager.util.file_loader;
 
 import org.springframework.web.multipart.MultipartFile;
 

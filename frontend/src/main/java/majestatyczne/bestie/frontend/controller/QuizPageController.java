@@ -5,17 +5,22 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import majestatyczne.bestie.frontend.Constants;
 import majestatyczne.bestie.frontend.HomePageApplication;
 import majestatyczne.bestie.frontend.model.*;
+import majestatyczne.bestie.frontend.model.view.QuizView;
+import majestatyczne.bestie.frontend.model.view.ResultView;
+import majestatyczne.bestie.frontend.model.view.RewardView;
 import majestatyczne.bestie.frontend.service.QuizResultsService;
 import majestatyczne.bestie.frontend.service.RewardService;
-import majestatyczne.bestie.frontend.util.RewardChoiceCell;
+import majestatyczne.bestie.frontend.util.cell.RewardChoiceCell;
 
 import java.io.IOException;
 import java.net.URL;
@@ -81,6 +86,8 @@ public class QuizPageController implements Initializable {
         rewards = FXCollections.observableArrayList();
         rewardList.forEach(reward -> rewards.add(new RewardView(reward)));
 
+        RewardView noReward = new RewardView(-1, null, Constants.REWARD_CHOICE_BOX_NO_REWARD, null);
+        rewards.add(noReward);
     }
 
     private void setData() {
@@ -110,7 +117,11 @@ public class QuizPageController implements Initializable {
                 .filter(x -> x.getId() == selectedReward.getId())
                 .findFirst()
                 .orElse(null);
-        resultView.setReward(reward.getName());
+        if (reward == null) {
+            resultView.setReward(Constants.REWARD_CHOICE_BOX_NO_REWARD);
+        } else {
+            resultView.setReward(reward.getName());
+        }
 
         Result resultToUpdate = resultList.stream()
                 .filter(x -> x.getId() == resultView.getId())
@@ -128,7 +139,7 @@ public class QuizPageController implements Initializable {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -142,7 +153,39 @@ public class QuizPageController implements Initializable {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    private void onExportClicked() {
+        FXMLLoader fxmlLoader = new FXMLLoader(HomePageApplication.class.getResource(Constants.FXML_EXPORT_POPUP_RESOURCE));
+        try {
+            Parent root = fxmlLoader.load();
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.setTitle(Constants.EXPORT_POPUP_WINDOW_TITLE);
+            popupStage.setScene(new Scene(root));
+            ExportPopupController popupController = fxmlLoader.getController();
+            popupController.setData(popupStage, quizView.getId());
+            popupStage.showAndWait();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    private void onStatsClicked() {
+        FXMLLoader fxmlLoader = new FXMLLoader(HomePageApplication.class.getResource(Constants.FXML_STATS_PAGE_RESOURCE));
+        Stage stage = (Stage) resultTable.getScene().getWindow();
+        try {
+            Scene scene = new Scene(fxmlLoader.load(), Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+            StatsPageController statsPageController = fxmlLoader.getController();
+            statsPageController.setQuizView(quizView);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

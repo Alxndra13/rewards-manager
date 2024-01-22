@@ -1,8 +1,7 @@
 package majestatyczne.bestie.rewardsmanager.util;
 
 import majestatyczne.bestie.rewardsmanager.RewardsManagerTestsConfiguration;
-import org.apache.poi.EmptyFileException;
-import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
+import majestatyczne.bestie.rewardsmanager.util.file_loader.XlsxDataLoader;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
